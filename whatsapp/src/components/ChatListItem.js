@@ -2,9 +2,9 @@ import React from 'react';
 import './ChatListItem.css';
 
 
-export default () => {
+export default (onClick) => {
     return(
-        <div className="chatListItem">
+        <div className="chatListItem" onClick={onClick}>
             <img className="chatListItem--avatar" src="https://img.favpng.com/20/11/10/computer-icons-icon-design-png-favpng-8Hk26AsZVcQbfXKf83GxDkCZS.jpg" alt=""></img>
             <div className="chatListItem--lines">
                 <div className="chatListItem--line">

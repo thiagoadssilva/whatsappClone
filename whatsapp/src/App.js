@@ -5,11 +5,21 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
 
 import ChatLisItem from './components/ChatListItem';
+import ChatIntro from './components/ChatIntro';
+import ChatWindow from './components/ChatWindow';
 import './App.css';
 
 export default () =>{
 
-    const [chatList, setChatList] = useState([{},{},{},{},{},{},{},{},{},{},{},{}]);
+    const [chatlist, setChatList] = useState([
+        {chatId: 1, title:"thiago jose da silva", image: "https://img.favpng.com/20/11/10/computer-icons-icon-design-png-favpng-8Hk26AsZVcQbfXKf83GxDkCZS.jpg"},
+        {chatId: 2, title:"thiago jose da silva", image: "https://img.favpng.com/20/11/10/computer-icons-icon-design-png-favpng-8Hk26AsZVcQbfXKf83GxDkCZS.jpg"},
+        {chatId: 3, title:"thiago jose da silva", image: "https://img.favpng.com/20/11/10/computer-icons-icon-design-png-favpng-8Hk26AsZVcQbfXKf83GxDkCZS.jpg"},
+        {chatId: 4, title:"thiago jose da silva", image: "https://img.favpng.com/20/11/10/computer-icons-icon-design-png-favpng-8Hk26AsZVcQbfXKf83GxDkCZS.jpg"},
+        {chatId: 5, title:"thiago jose da silva", image: "https://img.favpng.com/20/11/10/computer-icons-icon-design-png-favpng-8Hk26AsZVcQbfXKf83GxDkCZS.jpg"}
+        
+    ]);
+    const [activeChat, setActiveChat] = useState({});
 
     return(
         <div className="app-window">
@@ -32,16 +42,22 @@ export default () =>{
                     </div>
                 </div>
                 <div className="chatlist">
-                    {chatList.map((item, key) =>(
+                    {chatlist.map((item, key) =>(
                         <ChatLisItem
                             key={key}
+                            onClick={()=>setActiveChat(chatlist[key])}
                         />
                     ))}
                 </div>
             </div>
 
-            <div className="contentare">
-                123
+            <div className="contentarea">
+                {activeChat.chatId !== undefined &&
+                    <ChatWindow />
+                }
+                {activeChat.chatId === undefined &&
+                    <ChatIntro />
+                }
             </div>
 
         </div>

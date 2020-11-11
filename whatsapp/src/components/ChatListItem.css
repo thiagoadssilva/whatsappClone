@@ -48,6 +48,7 @@
     color: #999;
     display: flex;
     width: 100%;
+    padding-bottom: 15px;
 }
 .chatLisItem--lastMsg p{
     overflow: hidden;
