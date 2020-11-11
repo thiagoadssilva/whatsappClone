@@ -11,8 +11,19 @@
 ![Tela Principal](images/parteLateral.png)
 <hr>
 
-## Tela padrão para quanto não tem nenhuma conversa selecionada<b>Parte Direita</b>.
+## Tela padrão para quanto não tem nenhuma conversa selecionada <b>Parte Direita</b>.
 
 ![Tela Principal](images/telaSemMensagem.png)
 <hr>
 
+## Tela que retrata o ato de selecionar um contato para intergir.
+
+![Tela Principal](images/selecaoContato.png)
+
+<hr>
+
+## Cração da opções dos emoji.
+
+![Tela Principal](images/emoji.png)
+
+<hr>
