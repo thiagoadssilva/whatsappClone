@@ -30,7 +30,11 @@ export default () =>{
                     <div className="header--buttons">
                         <div className="header--btn">
                             <DonutLargeIcon style={{color: '#919191'}}/>
+                        </div>
+                        <div className="header--btn">
                             <ChatIcon style={{color: '#919191'}}/>
+                        </div>
+                        <div className="header--btn">
                             <MoreVertIcon style={{color: '#919191'}}/>
                         </div>
                     </div>
@@ -45,6 +49,8 @@ export default () =>{
                     {chatlist.map((item, key) =>(
                         <ChatLisItem
                             key={key}
+                            data={item}
+                            active={activeChat.chatId === chatlist[key].chatId}
                             onClick={()=>setActiveChat(chatlist[key])}
                         />
                     ))}
