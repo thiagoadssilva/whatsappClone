@@ -56,3 +56,7 @@
 	* https://medium.com/@jccamargo15/styled-components-instala%C3%A7%C3%A3o-e-configura%C3%A7%C3%A3o-b%C3%A1sica-3a2751a3e83f
 
 <hr>
+
+OBS - Site de onde foi tirado todos os icones usados:
+
+* 	https://material-ui.com/pt/components/material-icons/
