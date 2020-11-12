@@ -22,7 +22,7 @@
 
 <hr>
 
-## Cração da opções dos emoji.
+## Criação da opções dos emoji.
 
 ![Tela Principal](images/emoji.png)
 
