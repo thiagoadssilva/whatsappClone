@@ -13,11 +13,22 @@ import './ChatWindow.css';
 
 
 export default () => {
+    // INICIO -  Preparando a funcionalidade do microfone
+    let recognition = null;
+    //Validando  se o navegador em questão tem a funcionalidade de gravação
+    let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    //Caso tenha é criado o obejeto reponsável pela funcionalidade
+    if(SpeechRecognition !== undefined){
+        recognition = new SpeechRecognition();
+    }
+    // FIM -  Preparando a funcionalidade do microfone
 
     const [emojiOpen, setEmojiOpen] = useState(false);
+    const [text, setText] = useState('');
+    const [listening, setListening] = useState(false); // State que vai fazer o controle de quando o botão está sendo clicado (microfone)
 
-    const handleEmojiClick = () => {
-
+    const handleEmojiClick = (e, emojiObject) => {
+        setText( text + emojiObject.emoji);
     }
 
     const handleOpenEmoji = () => {
@@ -25,6 +36,28 @@ export default () => {
     }
     const handleCloseEmoji = () => {
         setEmojiOpen(false);
+    }
+    const handleSendClick = () => {
+
+    }
+    const handleMicClick = () => {
+        if(recognition !== null){
+            
+            recognition.onstart = () => {
+                console.log('entrou01');
+                setListening(true);
+            }
+            recognition.onend = () => {
+                console.log('entrou02');
+                setListening(false);
+            }
+            recognition.onresult = (e) =>{
+                console.log('entrou03');
+                setText(e.results[0][0].transcript);
+                console.log(e.results[0][0].transcript);
+            }
+            recognition.start();
+        }
     }
 
     return(
@@ -74,12 +107,25 @@ export default () => {
                     </div>
                 </div>
                 <div className="chatWindow--inputarea">
-                    <input className="chatWindow--input" type="text" placeholder="Digite uma mensagem"></input>
+                    <input 
+                        className="chatWindow--input" 
+                        type="text" 
+                        placeholder="Digite uma mensagem"
+                        value={text}
+                        onChange={e => setText(e.target.value)}
+                    ></input>
                 </div>
                 <div className="chatWindow--pos">
-                    <div className="chatWindow--btn">
+                    {text === '' &&
+                        <div onClick={handleMicClick} className="chatWindow--btn">
+                            <MicIcon style={{color: listening ? '#126ECE' : '#919191'}} />                        
+                        </div>
+                    }   
+                    {text !== '' &&
+                    <div onClick={handleSendClick} className="chatWindow--btn">
                         <SendIcon style={{color: '#919191'}} />                        
                     </div>
+                    }
                 </div>
 
             </div>
