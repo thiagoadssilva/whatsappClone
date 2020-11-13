@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import EmojiPicker from 'emoji-picker-react';
 
 import SearchIcon from '@material-ui/icons/Search';
@@ -8,11 +8,14 @@ import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 import CloseIcon from '@material-ui/icons/Close';
 import SendIcon from '@material-ui/icons/Send';
 import MicIcon from '@material-ui/icons/Mic';
+import MessageItem from './MessageItem';
 
 import './ChatWindow.css';
 
 
-export default () => {
+export default ({user}) => {
+    const body = useRef();
+
     // INICIO -  Preparando a funcionalidade do microfone
     let recognition = null;
     //Validando  se o navegador em questão tem a funcionalidade de gravação
@@ -26,6 +29,35 @@ export default () => {
     const [emojiOpen, setEmojiOpen] = useState(false);
     const [text, setText] = useState('');
     const [listening, setListening] = useState(false); // State que vai fazer o controle de quando o botão está sendo clicado (microfone)
+    const [list, setList] = useState([
+        {author: 123, body: 'thiaog jose da silva'},
+        {author: 1234, body: 'thiaog jose da silva'},
+        {author: 123, body: 'thiaog jose da silva'},
+        {author: 123, body: 'thiaog jose da silva'},
+        {author: 1234, body: 'thiaog jose da silva'},
+        {author: 123, body: 'thiaog jose da silva'},
+        {author: 123, body: 'thiaog jose da silva'},
+        {author: 1234, body: 'thiaog jose da silva'},
+        {author: 123, body: 'thiaog jose da silva'},
+        {author: 123, body: 'thiaog jose da silva'},
+        {author: 1234, body: 'thiaog jose da silva'},
+        {author: 123, body: 'thiaog jose da silva'},
+        {author: 123, body: 'thiaog jose da silva'},
+        {author: 1234, body: 'thiaog jose da silva'},
+        {author: 123, body: 'thiaog jose da silva'},
+        {author: 123, body: 'thiaog jose da silva'},
+        {author: 1234, body: 'thiaog jose da silva'},
+        {author: 123, body: 'thiaog jose da silva'},
+        {author: 123, body: 'thiaog jose da silva'},
+        {author: 1234, body: 'thiaog jose da silva'},
+        {author: 123, body: 'thiaog jose da silva'} 
+    ]);
+
+    useEffect(() => {
+        if(body.current.scrollHeight > body.current.offsetHeight){
+            body.current.scrollTop = body.current.scrollHeight - body.current.offsetHeight ;
+        }
+    },[list]);
 
     const handleEmojiClick = (e, emojiObject) => {
         setText( text + emojiObject.emoji);
@@ -40,6 +72,8 @@ export default () => {
     const handleSendClick = () => {
 
     }
+
+    // INICIO - Função de captura de voz pelo microfone
     const handleMicClick = () => {
         if(recognition !== null){
             
@@ -79,7 +113,15 @@ export default () => {
                     </div>
                 </div>
             </div>
-            <div className="chatWindow--body">
+            <div ref={body} className="chatWindow--body">
+                {list.map((item, key) => (
+                    <MessageItem 
+                        key={key}
+                        data={item}
+                        user={user}
+                    />
+                ))}
+            
 
             </div>
             <div 
