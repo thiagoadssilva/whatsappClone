@@ -27,3 +27,15 @@
 ![Tela Principal](images/emoji.png)
 
 <hr>
+
+## Criação da interação da conversa e validando o usuario.
+
+![Tela Principal](images/conversa.png)
+
+<hr>
+
+## Criação da botão para abrir uma nova conversa.
+
+![Tela Principal](images/novaConversa.png)
+
+<hr>
