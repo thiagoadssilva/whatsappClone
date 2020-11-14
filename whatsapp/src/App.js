@@ -8,23 +8,18 @@ import ChatLisItem from './components/ChatListItem';
 import ChatIntro from './components/ChatIntro';
 import ChatWindow from './components/ChatWindow';
 import NewChat from './components/NewChat';
+import Login from './components/Login';
 import './App.css';
+import Api from './Api';
 
 export default () =>{
 
-    const [chatlist, setChatList] = useState([
-        {chatId: 1, title:"thiago jose da silva", image: "https://img.favpng.com/20/11/10/computer-icons-icon-design-png-favpng-8Hk26AsZVcQbfXKf83GxDkCZS.jpg"},
-        {chatId: 2, title:"Bento jose da silva", image: "https://img.favpng.com/20/11/10/computer-icons-icon-design-png-favpng-8Hk26AsZVcQbfXKf83GxDkCZS.jpg"},
-        {chatId: 3, title:"thiago jose da silva", image: "https://img.favpng.com/20/11/10/computer-icons-icon-design-png-favpng-8Hk26AsZVcQbfXKf83GxDkCZS.jpg"},
-        {chatId: 4, title:"thiago jose da silva", image: "https://img.favpng.com/20/11/10/computer-icons-icon-design-png-favpng-8Hk26AsZVcQbfXKf83GxDkCZS.jpg"},
-        {chatId: 5, title:"thiago jose da silva", image: "https://img.favpng.com/20/11/10/computer-icons-icon-design-png-favpng-8Hk26AsZVcQbfXKf83GxDkCZS.jpg"}
-        
-    ]);
+    const [chatlist, setChatList] = useState([]);
     const [activeChat, setActiveChat] = useState({});
     const [user, setUser] = useState({
-        id: 1234,
-        avatar: 'https://img.favpng.com/20/11/10/computer-icons-icon-design-png-favpng-8Hk26AsZVcQbfXKf83GxDkCZS.jpg',
-        name: 'Bento Jose da Silva'        
+        id: '4xoROSkPrXZPefu0SnIA',
+        name: 'thiago jose da silva',
+        avatar: 'https://graph.facebook.com/511370266074321/picture'
     });
 
     const [showNewChat, setShowNewChat] = useState(false);
@@ -32,6 +27,22 @@ export default () =>{
 
     const handleOpen = () =>{
         setShowNewChat(true);
+    }
+
+    const handleLoginData  = async (u) => {
+        let newUser = {
+            id: u.uid,
+            name: u.displayName,
+            avatar: u.photoURL
+        };
+        await Api.addUser(newUser);
+        setUser(newUser);
+    }
+
+    if(user === null){
+        return(
+            <Login onReceive={handleLoginData}/>
+        );
     }
 
     return(
