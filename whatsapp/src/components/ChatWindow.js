@@ -11,9 +11,10 @@ import MicIcon from '@material-ui/icons/Mic';
 import MessageItem from './MessageItem';
 
 import './ChatWindow.css';
+import Api from '../Api';
 
 
-export default ({user}) => {
+export default ({user, data}) => {
     const body = useRef();
 
     // INICIO -  Preparando a funcionalidade do microfone
@@ -29,29 +30,14 @@ export default ({user}) => {
     const [emojiOpen, setEmojiOpen] = useState(false);
     const [text, setText] = useState('');
     const [listening, setListening] = useState(false); // State que vai fazer o controle de quando o botão está sendo clicado (microfone)
-    const [list, setList] = useState([
-        {author: 123, body: 'thiaog jose da silva'},
-        {author: 1234, body: 'thiaog jose da silva'},
-        {author: 123, body: 'thiaog jose da silva'},
-        {author: 123, body: 'thiaog jose da silva'},
-        {author: 1234, body: 'thiaog jose da silva'},
-        {author: 123, body: 'thiaog jose da silva'},
-        {author: 123, body: 'thiaog jose da silva'},
-        {author: 1234, body: 'thiaog jose da silva'},
-        {author: 123, body: 'thiaog jose da silva'},
-        {author: 123, body: 'thiaog jose da silva'},
-        {author: 1234, body: 'thiaog jose da silva'},
-        {author: 123, body: 'thiaog jose da silva'},
-        {author: 123, body: 'thiaog jose da silva'},
-        {author: 1234, body: 'thiaog jose da silva'},
-        {author: 123, body: 'thiaog jose da silva'},
-        {author: 123, body: 'thiaog jose da silva'},
-        {author: 1234, body: 'thiaog jose da silva'},
-        {author: 123, body: 'thiaog jose da silva'},
-        {author: 123, body: 'thiaog jose da silva'},
-        {author: 1234, body: 'thiaog jose da silva'},
-        {author: 123, body: 'thiaog jose da silva'} 
-    ]);
+    const [list, setList] = useState([]);
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        setList([]);
+        let unsub = Api.onChatContent(data.chatId, setList, setUsers);
+        return unsub;
+    }, [data.chatId]);
 
     useEffect(() => {
         if(body.current.scrollHeight > body.current.offsetHeight){
@@ -69,8 +55,19 @@ export default ({user}) => {
     const handleCloseEmoji = () => {
         setEmojiOpen(false);
     }
-    const handleSendClick = () => {
 
+    const handleInputKeyUp = (e) =>{
+        if(e.keyCode == 13){
+            handleSendClick();
+        }
+    }
+
+    const handleSendClick = () => {
+        if(text !== ''){
+            Api.sendMessage(data, user.id, 'text', text, users);
+            setText('');
+            setEmojiOpen(false);
+        }
     }
 
     // INICIO - Função de captura de voz pelo microfone
@@ -98,8 +95,8 @@ export default ({user}) => {
         <div className="chatWindow">
             <div className="chatWindow--header">
                 <div className="chatWindow--headerinfo">
-                    <img className="chatWindow--avatar" src="https://img.favpng.com/20/11/10/computer-icons-icon-design-png-favpng-8Hk26AsZVcQbfXKf83GxDkCZS.jpg" alt="" />
-                    <div className="chatWindow--name">Thiago jose da silva</div>
+                    <img className="chatWindow--avatar" src={data.image} alt="" />
+                    <div className="chatWindow--name">{data.title}</div>
                 </div>
                 <div className="chatWindow--headerbuttons">
                     <div className="chatWindow--btn">
@@ -155,6 +152,7 @@ export default ({user}) => {
                         placeholder="Digite uma mensagem"
                         value={text}
                         onChange={e => setText(e.target.value)}
+                        onKeyUp={handleInputKeyUp}
                     ></input>
                 </div>
                 <div className="chatWindow--pos">

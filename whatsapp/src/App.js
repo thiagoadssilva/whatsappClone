@@ -16,14 +16,16 @@ export default () =>{
 
     const [chatlist, setChatList] = useState([]);
     const [activeChat, setActiveChat] = useState({});
-    const [user, setUser] = useState({
-        id: '4xoROSkPrXZPefu0SnIA',
-        name: 'thiago jose da silva',
-        avatar: 'https://graph.facebook.com/511370266074321/picture'
-    });
+    const [user, setUser] = useState(null);
 
     const [showNewChat, setShowNewChat] = useState(false);
 
+    useEffect(() => {
+        if(user !== null){
+            let unsub = Api.onChatList(user.id, setChatList);
+            return unsub;
+        }
+    }, [user]);
 
     const handleOpen = () =>{
         setShowNewChat(true);
@@ -91,6 +93,7 @@ export default () =>{
                 {activeChat.chatId !== undefined &&
                     <ChatWindow 
                         user={user}
+                        data={activeChat}
                     />
                 }
                 {activeChat.chatId === undefined &&

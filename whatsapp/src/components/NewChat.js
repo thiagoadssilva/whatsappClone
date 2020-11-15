@@ -15,12 +15,24 @@ export default  ({user, chatlist, show, setShow}) => {
             }
         }
         getList();
-        
     }, [user])
 
     const handleClose = () =>{
         setShow(false);
     }
+
+    const addNewChat = async (user2) => {
+        let mapList = [];
+        chatlist.map((item) => {
+            mapList.push(item.winth);
+        })
+
+        if(mapList.indexOf(user2.id) == -1){
+            await Api.addNewChat(user, user2, chatlist);
+        }
+        // await Api.addNewChat(user, user2, chatlist);
+        handleClose();
+    } 
 
     return (
         <div className="newChat" style={{left: show?0:-415}}>
@@ -32,7 +44,7 @@ export default  ({user, chatlist, show, setShow}) => {
             </div>
             <div className="newChat--list">
                 {list.map((item, key) => (
-                    <div className="newChat--item" key={key}>
+                    <div onClick={()=>addNewChat(item)} className="newChat--item" key={key}>
                         <img className="newChat--itemavatar" src={item.avatar} alt=""></img>        
                         <div className="newChat--itemname">{item.name}</div>
                     </div>
